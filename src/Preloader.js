@@ -1,7 +1,7 @@
 Candy.Preloader = function(game){
 	// define width and height of the game
-	Candy.GAME_WIDTH = 640;
-	Candy.GAME_HEIGHT = 960;
+	Candy.GAME_WIDTH = 960;
+	Candy.GAME_HEIGHT = 640;
 };
 Candy.Preloader.prototype = {
 	preload: function(){
@@ -17,6 +17,8 @@ Candy.Preloader.prototype = {
 		this.load.image('game-over', 'img/gameover.png');
 		this.load.image('score-bg', 'img/score-bg.png');
 		this.load.image('button-pause', 'img/button-pause.png');
+			this.load.atlas('arcade', 'img/arcade-joystick.png', 'img/arcade-joystick.json');
+		// load spritesheets
 		// load spritesheets
 		this.load.spritesheet('candy', 'img/candy.png', 82, 98);
 		this.load.spritesheet('monster-idle', 'img/monster-idle.png', 103, 131);

@@ -1,4 +1,6 @@
 Candy.Game = function(game){
+		this.pad;
+		this.stick;
 	// define needed variables for Candy.Game
 	this._player = null;
 	this._candyGroup = null;
@@ -12,12 +14,13 @@ Candy.Game = function(game){
 Candy.Game.prototype = {
 	create: function(){
 		// start the physics engine
+		this.game.renderer.renderSession.roundPixels = true;
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 		// set the global gravity
-		this.physics.arcade.gravity.y = 200;
+	//	this.physics.arcade.gravity.y = 200;
 		// display images: background, floor and score
 		this.add.sprite(0, 0, 'background');
-		this.add.sprite(-30, Candy.GAME_HEIGHT-160, 'floor');
+		//this.add.sprite(-30, Candy.GAME_HEIGHT-160, 'floor');
 		this.add.sprite(10, 5, 'score-bg');
 		// add pause button
 		this.add.button(Candy.GAME_WIDTH-96-10, 5, 'button-pause', this.managePause, this);
@@ -30,6 +33,7 @@ Candy.Game.prototype = {
 		// set font style
 		this._fontStyle = { font: "40px Arial", fill: "#FFCC00", stroke: "#333", strokeThickness: 5, align: "center" };
 		// initialize the spawn timer
+	this.physics.arcade.enable(this._player);
 		this._spawnCandyTimer = 0;
 		// initialize the score text with 0
 		Candy._scoreText = this.add.text(120, 20, "0", this._fontStyle);
@@ -38,7 +42,11 @@ Candy.Game.prototype = {
 		// create new group for candy
 		this._candyGroup = this.add.group();
 		// spawn first candy
-		Candy.item.spawnCandy(this);
+		//Candy.item.spawnCandy(this);
+
+			this.pad = this.game.plugins.add(Phaser.VirtualJoystick); 
+				this.stick = this.pad.addStick(0, 0, 200, 'arcade');
+				this.stick.showOnTouch = true;
 	},
 	managePause: function(){
 		// pause the game
@@ -54,28 +62,38 @@ Candy.Game.prototype = {
 		}, this);
 	},
 	update: function(){
+			var maxSpeed = 400;
+
+				if (this.stick.isDown)
+				{
+						this.physics.arcade.velocityFromRotation(this.stick.rotation, this.stick.force * maxSpeed, this._player.body.velocity);
+				}
+				else
+				{
+						this._player.body.velocity.set(0);
+				}
 		// update timer every frame
-		this._spawnCandyTimer += this.time.elapsed;
+	//	this._spawnCandyTimer += this.time.elapsed;
 		// if spawn timer reach one second (1000 miliseconds)
-		if(this._spawnCandyTimer > 1000) {
+		//if(this._spawnCandyTimer > 1000) {
 			// reset it
-			this._spawnCandyTimer = 0;
+	//		this._spawnCandyTimer = 0;
 			// and spawn new candy
-			Candy.item.spawnCandy(this);
+	//		Candy.item.spawnCandy(this);
 		}
 		// loop through all candy on the screen
-		this._candyGroup.forEach(function(candy){
+	//	this._candyGroup.forEach(function(candy){
 			// to rotate them accordingly
-			candy.angle += candy.rotateMe;
-		});
-		// if the health of the player drops to 0, the player dies = game over
-		if(!Candy._health) {
+	//		candy.angle += candy.rotateMe;
+	//	});
+	//	// if the health of the player drops to 0, the player dies = game over
+	//	if(!Candy._health) {
 			// show the game over message
-			this.add.sprite((Candy.GAME_WIDTH-594)/2, (Candy.GAME_HEIGHT-271)/2, 'game-over');
+	//		this.add.sprite((Candy.GAME_WIDTH-594)/2, (Candy.GAME_HEIGHT-271)/2, 'game-over');
 			// pause the game
-			this.game.paused = true;
-		}
-	}
+	//		this.game.paused = true;
+	//	}
+	//}
 };
 
 Candy.item = {
