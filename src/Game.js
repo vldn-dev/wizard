@@ -1,3 +1,5 @@
+
+
 Candy.Game = function(game){
 		this.pad;
 		this.stick;
@@ -12,7 +14,58 @@ Candy.Game = function(game){
 	Candy._health = 0;
 };
 Candy.Game.prototype = {
+
+
+
 	create: function(){
+
+
+	  var hash = window.location.hash.replace('#', '');
+            if (!hash.length) {
+                location.href = location.href + '#' + ((Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , ''));
+                location.reload();
+            }
+  var channel = new DataChannel(location.hash.substr(1) || 'auto-session-establishment', {
+            
+                });
+  	  channel.openSignalingChannel = function(config) {
+        var socket = io.connect('http://127.0.0.1:1337');
+        socket.channel = config.channel || this.channel || 'default-channel';
+        socket.on('message', config.onmessage);
+
+        socket.send = function (data) {
+            socket.emit('message', data);
+        };
+
+        if (config.onopen) setTimeout(config.onopen, 1);
+        return socket;
+    }
+                channel.onmessage = function(data, userid, latency) {
+                    console.debug(userid, 'posted', data);
+                    console.log('latency:', latency, 'ms');
+                };
+
+                channel.onopen = function() {
+
+                };
+
+                channel.onFileProgress = function(packets, uuid) {
+                   
+                };
+
+                channel.onFileSent = function(file) {
+                   
+                };
+
+                channel.onFileReceived = function(fileName) {
+                
+                };
+
+
+                channel.onleave = function(userid) {
+                    console.warn(message);
+                };
+
 		// start the physics engine
 		this.game.renderer.renderSession.roundPixels = true;
 		this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -33,7 +86,7 @@ Candy.Game.prototype = {
 		// set font style
 		this._fontStyle = { font: "40px Arial", fill: "#FFCC00", stroke: "#333", strokeThickness: 5, align: "center" };
 		// initialize the spawn timer
-	this.physics.arcade.enable(this._player);
+	    this.physics.arcade.enable(this._player);
 		this._spawnCandyTimer = 0;
 		// initialize the score text with 0
 		Candy._scoreText = this.add.text(120, 20, "0", this._fontStyle);
