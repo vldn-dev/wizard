@@ -4,8 +4,35 @@
 	<meta charset="utf-8" />
 	<title>Wizard WEBRTC Demo</title>
 	<style> body { margin: 0; background: #B4D9E7; } </style>
+
+
+        <script>
+            var hash = window.location.hash.replace('#', '');
+            if (!hash.length) {
+                location.href = location.href + '#' + ((Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-'));
+                location.reload();
+            }
+        </script>
+        <style>
+            section.user-id {
+                float: left;
+                overflow: hidden;
+                padding-left: 0;
+                padding-right: 1em;
+                text-align: right;
+                width: 5em;
+            }
+
+            section.message {
+             
+                margin-left: 4em;
+                overflow: hidden;
+                padding-left: 1em;
+            }
+        </style>
 	<script src="src/phaser-2.3.1.min.js"></script>
-	<script src="https://cdn.webrtc-experiment.com/DataChannel.js"></script>
+   <script src="https://cdn.webrtc-experiment.com/DataChannel.js"> </script>
+        <script src="https://cdn.webrtc-experiment.com/firebase.js"> </script>
 	<script src="src/Boot.js"></script>
 	<script src="src/Preloader.js"></script>
 	<script src="src/MainMenu.js"></script>
@@ -14,6 +41,30 @@
 
 </head>
 <body>
+
+
+  <table style="border-left: 0px solid black; width: 100%;position:absolute;bottom:5px ;left:0">
+                <tr>
+                    <td>
+                   
+
+                        <div id="chat-output" style="color: #F0B020"></div>
+
+                        <input type="text" id="user-id" style="font-size: 1.2em; margin-right: 0; width: 5em;" placeholder="all"
+                               disabled title="Enter user-id to send direct messages.">
+                        <input type="text" id="chat-input" style="font-size: 1.2em; margin-left: -.5em; width: 18em;"
+                               placeholder="chat message" disabled>
+                    </td>
+         
+         
+           
+                </tr>
+            </table>
+            
+ <script>
+  
+</script>
+
 <script>
 (function() {
 	// initialize the framework
@@ -27,5 +78,7 @@
 	game.state.start('Boot');
 })();
 </script>
+
+
 </body>
 </html>

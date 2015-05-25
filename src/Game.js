@@ -1,10 +1,15 @@
 
-
+   var enemy;
+   var flag;
+           var channel = new DataChannel(location.hash.substr(1) || 'auto-session-establishment', {
+                    firebase: 'webrtc-experiment'
+                });
 Candy.Game = function(game){
 		this.pad;
 		this.stick;
 	// define needed variables for Candy.Game
 	this._player = null;
+
 	this._candyGroup = null;
 	this._spawnCandyTimer = 0;
 	this._fontStyle = null;
@@ -12,60 +17,96 @@ Candy.Game = function(game){
 	Candy._scoreText = null;
 	Candy._score = 0;
 	Candy._health = 0;
+
 };
 Candy.Game.prototype = {
 
 
 
 	create: function(){
+   
 
-
-	  var hash = window.location.hash.replace('#', '');
-            if (!hash.length) {
-                location.href = location.href + '#' + ((Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , ''));
-                location.reload();
-            }
-  var channel = new DataChannel(location.hash.substr(1) || 'auto-session-establishment', {
-            
-                });
-  	  channel.openSignalingChannel = function(config) {
-        var socket = io.connect('http://127.0.0.1:1337');
-        socket.channel = config.channel || this.channel || 'default-channel';
-        socket.on('message', config.onmessage);
-
-        socket.send = function (data) {
-            socket.emit('message', data);
-        };
-
-        if (config.onopen) setTimeout(config.onopen, 1);
-        return socket;
-    }
                 channel.onmessage = function(data, userid, latency) {
-                    console.debug(userid, 'posted', data);
-                    console.log('latency:', latency, 'ms');
+                 //   console.debug(userid, 'posted', data);
+                //    appendDIV(data, userid);
+                //    console.log('latency:', latency, 'ms');
+                    enemy.position = data;
                 };
 
                 channel.onopen = function() {
-
+                    if (document.getElementById('chat-input')) document.getElementById('chat-input').disabled = false;
+                   // if (document.getElementById('file')) document.getElementById('file').disabled = false;
+                    if (useridBox) useridBox.disabled = false;
+                      
                 };
 
-                channel.onFileProgress = function(packets, uuid) {
-                   
+        //     channel.onFileProgress = function(packets, uuid) {
+        //            appendDIV(uuid + ': ' + (
+         //                   packets.sent
+         //                       ? (packets.sent + ' sent')
+        //                        : (packets.received + ' received')
+        //                ) + ' / ' + packets.remaining + ' remaining', 'file', fileProgress);
+        //        };
+
+        //        channel.onFileSent = function(file) {
+      //              appendDIV(file.name + ' sent.', 'file', fileProgress);
+      //          };
+
+      //          channel.onFileReceived = function(fileName) {
+       //             appendDIV(fileName + ' received.', 'file', fileProgress);
+       //         };
+
+           ///     document.getElementById('file').onchange = function() {
+           //        var file = this.files[0];
+           //         channel.send(file);
+          //   };
+
+                var chatOutput = document.getElementById('chat-output');
+               //     fileProgress = document.getElementById('file-progress');
+
+                function appendDIV(data, userid, parent) {
+                    var div = document.createElement('div');
+                    if (parent) div.innerHTML = data;
+                    else {
+                        div.innerHTML = '<section class="user-id" contenteditable title="Use his user-id to send him direct messages or throw out of the room!">' + userid + '</section>'
+                            + '<section class="message" contenteditable>' + data + '</section>';
+                    }
+
+                    if (!parent) chatOutput.appendChild(div, chatOutput.firstChild);
+                 
+
+                    div.tabIndex = 0;
+                    div.focus();
+
+                    chatInput.focus();
+                }
+
+                var chatInput = document.getElementById('chat-input');
+                var useridBox = document.getElementById('user-id');
+                chatInput.onkeypress = function(e) {
+                    if (e.keyCode !== 13 || !this.value) return;
+
+                    if (useridBox.value.length) {
+                        var user = channel.channels[useridBox.value];
+                        if (user) user.send(this.value);
+                        else return alert('No such user exists.');
+                    } else channel.send(this.value);
+
+                    appendDIV(this.value, 'Me');
+
+                    this.value = '';
+                    this.focus();
                 };
 
-                channel.onFileSent = function(file) {
-                   
-                };
-
-                channel.onFileReceived = function(fileName) {
-                
-                };
-
-
+    /* users presence detection */
                 channel.onleave = function(userid) {
+                    var message = 'A user whose id is ' + userid + ' left you!';
+                    appendDIV(message, userid);
                     console.warn(message);
                 };
 
+            // channel.leave( userid ); --- eject a user
+            // channel.leave(); --- leave the room yourself!
 		// start the physics engine
 		this.game.renderer.renderSession.roundPixels = true;
 		this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -78,9 +119,10 @@ Candy.Game.prototype = {
 		// add pause button
 		this.add.button(Candy.GAME_WIDTH-96-10, 5, 'button-pause', this.managePause, this);
 		// create the player
-		this._player = this.add.sprite(5, 760, 'monster-idle');
+		this._player = this.add.sprite(5, 260, 'monster-idle');
+		enemy = this.add.sprite(200, 260, 'monster-idle');
 		// add player animation
-		this._player.animations.add('idle', [0,1,2,3,4,5,6,7,8,9,10,11,12], 10, true);
+	//	this._player.animations.add('idle', [0,1,2,3,4,5,6,7,8,9,10,11,12], 10, true);
 		// play the animation
 		this._player.animations.play('idle');
 		// set font style
@@ -104,6 +146,7 @@ Candy.Game.prototype = {
 	managePause: function(){
 		// pause the game
 		this.game.paused = true;
+
 		// add proper informational text
 		var pausedText = this.add.text(100, 250, "Game paused.\nTap anywhere to continue.", this._fontStyle);
 		// set event listener for the user's click/tap the screen
@@ -119,6 +162,7 @@ Candy.Game.prototype = {
 
 				if (this.stick.isDown)
 				{
+						channel.send(this._player.position);
 						this.physics.arcade.velocityFromRotation(this.stick.rotation, this.stick.force * maxSpeed, this._player.body.velocity);
 				}
 				else
