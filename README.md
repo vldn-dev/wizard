@@ -1,2 +1,2 @@
-# wizard
-HTML5 Phaser + Datachannel
+# Wizard - RTC Datachannel Techdemo
+Phaser.js + serverless multiplayer
