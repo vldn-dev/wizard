@@ -7,7 +7,7 @@ Candy.Preloader.prototype = {
 	preload: function(){
 		// set background color and preload image
 		this.stage.backgroundColor = '#B4D9E7';
-		this.preloadBar = this.add.sprite((Candy.GAME_WIDTH-311)/2, (Candy.GAME_HEIGHT-27)/2, 'preloaderBar');
+		this.preloadBar = this.add.sprite((Candy.GAME_WIDTH-311)/2, (Candy.GAME_HEIGHT+27)/2, 'preloaderBar');
 		this.load.setPreloadSprite(this.preloadBar);
 		// load images
 		this.load.image('background', 'img/background.png');
@@ -17,8 +17,7 @@ Candy.Preloader.prototype = {
 		this.load.image('game-over', 'img/gameover.png');
 		this.load.image('score-bg', 'img/score-bg.png');
 		this.load.image('button-pause', 'img/button-pause.png');
-			this.load.atlas('arcade', 'img/arcade-joystick.png', 'img/arcade-joystick.json');
-		// load spritesheets
+		this.load.atlas('arcade', 'img/arcade-joystick.png', 'img/arcade-joystick.json');
 		// load spritesheets
 		this.load.spritesheet('candy', 'img/candy.png', 82, 98);
 		this.load.spritesheet('monster-idle', 'img/monster-idle.png', 103, 131);
@@ -26,7 +25,6 @@ Candy.Preloader.prototype = {
 	},
 	create: function(){
 		// start the MainMenu state
-		//this.state.start('MainMenu');
-		this.state.start('Game');
+		this.state.start('MainMenu');
 	}
 };

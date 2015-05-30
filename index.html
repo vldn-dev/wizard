@@ -2,70 +2,38 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Wizard WEBRTC Demo</title>
-	<style> body { margin: 0; background: #000000; } </style>
-
-
-        <script>
-            var hash = window.location.hash.replace('#', '');
-            if (!hash.length) {
-                location.href = location.href + '#' + ((Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-'));
-                location.reload();
-            }
-        </script>
-        <style>
-            section.user-id {
-                float: left;
-                overflow: hidden;
-                padding-left: 0;
-                padding-right: 1em;
-                text-align: right;
-                width: 5em;
-            }
-
-            section.message {
-             
-                margin-left: 4em;
-                overflow: hidden;
-                padding-left: 1em;
-            }
-        </style>
-	<script src="src/phaser-2.3.1.min.js"></script>
-   <script src="src/DataChannel.js"> </script>
-        <script src="src/firebase.js"> </script>
+	<title>Wizard</title>
+	<style> body { margin: 0; background: #B4D9E7; } </style>
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+			<script src="src/phaser-2.3.1.min.js"></script>
 	<script src="src/Boot.js"></script>
 	<script src="src/Preloader.js"></script>
 	<script src="src/MainMenu.js"></script>
 	<script src="src/Game.js"></script>
-
-
 </head>
 <body>
+			<div id="game">
+			<div class="pane" id="pane_0">	
+					<input type="text" placeholder="Nickname" id="nick_field" class="form-control">
+				<br>
+				<input type="button" value="Set Nickname" id="nick" class="btn btn-info btn-default btn-block">
+				</div>
+<div class="pane" id="pane_1" style="display: none">
+				<input type="text" placeholder="Chat Room Name" id="room_field" class="form-control">
+				<br>
+				<input type="button" value="Join Chat Room" id="join" class="btn btn-info btn-default btn-block">
+</div>
+<div class="pane" id="pane_2" style="display: none">
+				<div id="messages_container"></div>
+				<p>
+				<input type="text" placeholder="Message" id="message_field" class="form-control">
+				</p>
+				<input type="button" value="Send Message" id="send" disabled class="btn btn-success btn-default btn-block">
+				<input type="button" value="Quit Chat Room" id="quit" class="btn btn-danger btn-default btn-block">
+				</div>
+</div>	
 
-
-  <table style="border-left: 0px solid black; width: 100%;position:absolute;bottom:5px ;left:0">
-                <tr>
-                    <td>
-                   
-
-                        <div id="chat-output" style="color: #F0B020"></div>
-
-                        <input type="text" id="user-id" style="font-size: 1.2em; margin-right: 0; width: 5em;" placeholder="all"
-                               disabled title="Enter user-id to send direct messages.">
-                        <input type="text" id="chat-input" style="font-size: 1.2em; margin-left: -.5em; width: 18em;"
-                               placeholder="chat message" disabled>
-                    </td>
-         
-         
-           
-                </tr>
-            </table>
-            
- <script>
-  
-</script>
-
-<script>
+						<script>
 (function() {
 	// initialize the framework
 	var game = new Phaser.Game(960, 640, Phaser.AUTO, 'game');
@@ -78,7 +46,6 @@
 	game.state.start('Boot');
 })();
 </script>
-
-
-</body>
+<script type="text/javascript" src="https://api.bistri.com/bistri.conference.min.js"></script>
+	</body>
 </html>
