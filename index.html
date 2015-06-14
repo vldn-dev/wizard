@@ -1,84 +1,85 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8" />
-	<title>Wizard WEBRTC Demo</title>
-	<style> body { margin: 0; background: #000000; } </style>
+		<head>
+				<meta charset="utf-8" />
+				<title>Wizard WEBRTC Demo</title>
+				<style> body { margin: 0; background: #000000; } </style>
 
 
-        <script>
-            var hash = window.location.hash.replace('#', '');
-            if (!hash.length) {
-                location.href = location.href + '#' + ((Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-'));
-                location.reload();
-            }
-        </script>
-        <style>
-            section.user-id {
-                float: left;
-                overflow: hidden;
-                padding-left: 0;
-                padding-right: 1em;
-                text-align: right;
-                width: 5em;
-            }
+				<script>
+var hash = window.location.hash.replace('#', '');
+if (!hash.length) {
+		location.href = location.href + '#' + ((Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-'));
+		location.reload();
+}
+				</script>
+				<style>
+section.user-id {
+		pointer-events: none;
+		float: left;
+		overflow: hidden;
+		padding-left: 0;
+		padding-right: 1em;
+		text-align: right;
+		width: 5em;
+}
 
-            section.message {
-             
-                margin-left: 4em;
-                overflow: hidden;
-                padding-left: 1em;
-            }
-        </style>
-	<script src="src/phaser-2.3.1.min.js"></script>
-   <script src="src/DataChannel.js"> </script>
-        <script src="src/firebase.js"> </script>
-	<script src="src/Boot.js"></script>
-	<script src="src/Preloader.js"></script>
-	<script src="src/MainMenu.js"></script>
-	<script src="src/Game.js"></script>
-
-
-</head>
-<body>
+												section.message {
+														pointer-events: none;
+														margin-left: 4em;
+														overflow: hidden;
+														padding-left: 1em;
+												}
+				</style>
+				<script src="src/phaser-2.3.1.min.js"></script>
+				<script src="src/DataChannel.js"> </script>
+				<script src="src/firebase.js"> </script>
+				<script src="src/Boot.js"></script>
+				<script src="src/Preloader.js"></script>
+				<script src="src/MainMenu.js"></script>
+				<script src="src/Game.js"></script>
 
 
-  <table style="border-left: 0px solid black; width: 100%;position:absolute;bottom:5px ;left:0">
-                <tr>
-                    <td>
-                   
+		</head>
+		<body>
 
-                        <div id="chat-output" style="color: #F0B020"></div>
 
-                        <input type="text" id="user-id" style="font-size: 1.2em; margin-right: 0; width: 5em;" placeholder="all"
-                               disabled title="Enter user-id to send direct messages.">
-                        <input type="text" id="chat-input" style="font-size: 1.2em; margin-left: -.5em; width: 18em;"
-                               placeholder="chat message" disabled>
-                    </td>
-         
-         
-           
-                </tr>
-            </table>
-            
- <script>
-  
-</script>
+				<table style="border-left: 0px solid black; width: 100%;position:absolute;bottom:5px ;left:0; pointer-events:none;">
+						<tr>
+								<td>
 
-<script>
+
+										<div id="chat-output" style="color: #F0B020; pointer-events:none; " ></div>
+
+										<input type="text" id="user-id" style="font-size: 1.2em; margin-right: 0; width: 5em;pointer-events:none;" placeholder="all"
+																																																																																																																					disabled title="Enter user-id to send direct messages.">
+										<input type="text" id="chat-input" style="font-size: 1.2em; margin-left: -.5em; width: 18em;"
+																																													placeholder="chat message" disabled>
+								</td>
+
+
+
+						</tr>
+				</table>
+
+				<script>
+
+				</script>
+
+				<script>
 (function() {
-	// initialize the framework
-	var game = new Phaser.Game(960, 640, Phaser.AUTO, 'game');
-	// add game states
-	game.state.add('Boot', Candy.Boot);
-	game.state.add('Preloader', Candy.Preloader);
-	game.state.add('MainMenu', Candy.MainMenu);
-	game.state.add('Game', Candy.Game);
-	// start the Boot state
-	game.state.start('Boot');
+		// initialize the framework
+		var game = new Phaser.Game(960, 640, Phaser.AUTO, 'game');
+		// add game states
+		game.state.add('Boot', Candy.Boot);
+		game.state.add('Preloader', Candy.Preloader);
+		game.state.add('MainMenu', Candy.MainMenu);
+		game.state.add('Game', Candy.Game);
+		// start the Boot state
+		game.state.start('Boot');
 })();
-</script>
+				</script>
 
 
-</body>
+		</body>
 </html>

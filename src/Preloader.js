@@ -6,7 +6,7 @@ Candy.Preloader = function(game){
 Candy.Preloader.prototype = {
 	preload: function(){
 		// set background color and preload image
-		this.stage.backgroundColor = '#B4D9E7';
+		this.stage.backgroundColor = '#000000';
 		this.preloadBar = this.add.sprite((Candy.GAME_WIDTH-311)/2, (Candy.GAME_HEIGHT-27)/2, 'preloaderBar');
 		this.load.setPreloadSprite(this.preloadBar);
 		// load images
@@ -17,6 +17,7 @@ Candy.Preloader.prototype = {
 		this.load.image('game-over', 'img/gameover.png');
 		this.load.image('score-bg', 'img/score-bg.png');
 		this.load.image('button-pause', 'img/button-pause.png');
+		this.load.image('bullet', 'img/purple_ball.png');
 			this.load.atlas('arcade', 'img/arcade-joystick.png', 'img/arcade-joystick.json');
 		// load spritesheets
 		// load spritesheets
