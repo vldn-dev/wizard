@@ -7,7 +7,7 @@ var IDE_HOOK = false;
 var fireRate = 600;
 var nextFire = 0;
 var shootButton;
-var stream = {x:"0", y:"0", msg:"0", bullet:"0"};
+var stream = {x:"0", y:"0", msg:"0", bulletx:"0", bullety:"0"};
 var channel = new DataChannel(location.hash.substr(1) || 'auto-session-establishment', {
 		firebase: 'webrtc-experiment'
 });
@@ -70,36 +70,24 @@ Candy.Game.prototype = {
 				shootButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 				this.input.maxPointers = 2;
-				this.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
-				this.scale.startFullScreen(false);
 
 				channel.onopen = function (userid) {
 						if (document.getElementById('chat-input')) document.getElementById('chat-input').disabled = false;
-
-						if (useridBox) useridBox.disabled = false;
-
+						if (useridBox) useridBox.disabled = false; 
 						var message = 'Connected';
-						appendDIV(message, userid);
-	 		stream.x = this._player.x - 50;
-						stream.y = this._player.y - 64;
-						channel.send(stream);
-				};
+						appendDIV(message, userid); };
 
 
 				channel.onmessage = function (data, userid, latency) {
 
-//		
+						//		
 
 
 						if (data.msg == "0"){
 								var i = user.indexOf(userid);
 								if (user.indexOf(userid) != -1){
-if (data.bullet != "0"){ 
-								var bullet = bullets.getFirstAlive(); 
-							bullet.position = data.bullet; 
-					}
-
+								
 										enemies.children[i].x = data.x;
 										enemies.children[i].y = data.y;
 
@@ -108,21 +96,16 @@ if (data.bullet != "0"){
 										Candy._scoreText.text = user.length;
 										enemy = enemies.create(data.x, data.y, 'monster-idle');
 								}
-
-
-						}else{
-
-
+						}else{ 
 								appendDIV(data.msg, userid);	
-								console.debug(userid, 'posted', data);
-						}
+								console.debug(userid, 'posted', data); }
 
 				};
 				channel.onleave = function (userid) {
 						var message = 'Left you!';
 						appendDIV(message, userid);
 						console.warn(message);
-	
+
 						var i = user.indexOf(userid);
 						if (user.indexOf(userid) != -1) {
 								user.splice(i,1);
@@ -186,33 +169,26 @@ if (data.bullet != "0"){
 		},
 
 		update: function () {
+this.physics.arcade.collide(enemy,bullets);
 
-				if (this.shootstick.isDown)
 
+				if (this.shootstick.isDown) 
 				{
-
-
-						if (this.time.now > nextFire && bullets.countDead() > 0)
-						{
-								nextFire = this.time.now + fireRate;
-
-								var bullet = bullets.getFirstDead();
-
-								bullet.reset(this._player.x - 8, this._player.y - 8);
-
+				if (this.time.now > nextFire && bullets.countDead() > 0)
+								{
+								nextFire = this.time.now + fireRate; 
+								var bullet = bullets.getFirstDead(); 
+								bullet.reset(this._player.x - 8, this._player.y - 8); 
 								this.physics.arcade.velocityFromRotation(this.shootstick.rotation, 400, bullet.body.velocity);
-stream.bullet = bullet.position;
-			channel.send(stream);
 						}
+
 				}
 				var maxSpeed = 400;
 				if (this.stick.isDown) {
 						this.physics.arcade.velocityFromRotation(this.stick.rotation, this.stick.force * maxSpeed, this._player.body.velocity); 
 						stream.x = this._player.x - 50;
 						stream.y = this._player.y - 64;
-						channel.send(stream);
-
-
+						channel.send(stream); 
 				} else {
 						this._player.body.velocity.set(0);
 				}
