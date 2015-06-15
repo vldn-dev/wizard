@@ -81,21 +81,25 @@ Candy.Game.prototype = {
 
 						var message = 'Connected';
 						appendDIV(message, userid);
-
+	 		stream.x = this._player.x - 50;
+						stream.y = this._player.y - 64;
+						channel.send(stream);
 				};
 
 
 				channel.onmessage = function (data, userid, latency) {
 
-//		if (data.bullet != "0"){ 
-				//				var bullet = bullets.getFirstAlive(); 
-				//				bullet.position = data.bullet; 
-			//			}
+//		
 
 
 						if (data.msg == "0"){
 								var i = user.indexOf(userid);
 								if (user.indexOf(userid) != -1){
+if (data.bullet != "0"){ 
+								var bullet = bullets.getFirstAlive(); 
+							bullet.position = data.bullet; 
+					}
+
 										enemies.children[i].x = data.x;
 										enemies.children[i].y = data.y;
 
@@ -118,16 +122,7 @@ Candy.Game.prototype = {
 						var message = 'Left you!';
 						appendDIV(message, userid);
 						console.warn(message);
-						//		for (var i=0; i<user.length;i++){
-						//				switch (userid) {
-						//							case user[i]:
-						//									user.pop;
-						//
-						//										Candy._scoreText.text = user.length;
-
-						//								break;
-						//}
-						//	}
+	
 						var i = user.indexOf(userid);
 						if (user.indexOf(userid) != -1) {
 								user.splice(i,1);
@@ -206,8 +201,8 @@ Candy.Game.prototype = {
 								bullet.reset(this._player.x - 8, this._player.y - 8);
 
 								this.physics.arcade.velocityFromRotation(this.shootstick.rotation, 400, bullet.body.velocity);
-//stream.bullet = bullet.position;
-	//					channel.send(stream);
+stream.bullet = bullet.position;
+			channel.send(stream);
 						}
 				}
 				var maxSpeed = 400;
