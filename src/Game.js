@@ -1,19 +1,4 @@
 var user = [];
-<<<<<<< HEAD
-var enemy;
-var flag;
-var enemies;
-var bullets;
-var IDE_HOOK = false;
-var fireRate = 600;
-var nextFire = 0;
-var shootButton;
-var stream = {x:"0", y:"0", msg:"0", bulletx:"0", bullety:"0"};
-var channel = new DataChannel(location.hash.substr(1) || 'auto-session-establishment', {
-		firebase: 'webrtc-experiment'
-});
-var useranzahl = 0;
-=======
 var hook;
 
 var enemy;
@@ -32,23 +17,15 @@ var stream = {x:"0", y:"0", msg:"0", hookx:"0", hooky:"0"};
 var channel = new DataChannel(location.hash.substr(1) || 'auto-session-establishment', {
 		firebase: 'webrtc-experiment'
 });
->>>>>>> gh-pages
 Candy.Game = function (game) {
 		this.pad;
 		this.shootstick;
 		this.stick;
 		this._player = null;
-<<<<<<< HEAD
-		this._candyGroup = null;
-		this._fontStyle = null;
-		Candy._scoreText = null;
-		//Candy._enemyName = null;
-=======
 
 		this._fontStyle = null;
 		Candy._scoreText = null;
 
->>>>>>> gh-pages
 		Candy._score = 0;
 		Candy._health = 0;
 
@@ -62,17 +39,6 @@ Candy.Game.prototype = {
 				this.physics.startSystem(Phaser.Physics.ARCADE);
 				this.add.button(Candy.GAME_WIDTH - 96 - 10, 5, 'button-pause', this.managePause, this);
 				this._player = this.add.sprite(5, 260, 'monster-idle');
-<<<<<<< HEAD
-				bullets = this.add.group();
-				bullets.enableBody = true;
-				bullets.physicsBodyType = Phaser.Physics.ARCADE;
-				enemies = this.add.group();
-
-
-				bullets.createMultiple(10, 'bullet');
-				bullets.setAll('checkWorldBounds', true);
-				bullets.setAll('outOfBoundsKill', true);
-=======
             this._player.anchor.set(0.5);
             this.physics.arcade.enable(this._player);
 
@@ -87,7 +53,6 @@ Candy.Game.prototype = {
 
 
 
->>>>>>> gh-pages
 
 				this._fontStyle = {
 						font: "40px Arial",
@@ -97,16 +62,6 @@ Candy.Game.prototype = {
 						align: "center"
 				};
 
-<<<<<<< HEAD
-				this._player.anchor.set(0.5);
-				this.physics.arcade.enable(this._player);
-				this._spawnCandyTimer = 0;
-
-				Candy._scoreText = this.add.text(120, 20, "0", this._fontStyle);
-				//Candy._enemyName = this.add.text(20, 20, "0", this._fontStyle);
-				Candy._health = 10;
-				this._candyGroup = this.add.group();
-=======
 
 
 
@@ -114,7 +69,6 @@ Candy.Game.prototype = {
 
 				Candy._health = 10;
 
->>>>>>> gh-pages
 				this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
 				this.stick = this.pad.addStick(0, 0, 200, 'arcade');
 				this.stick.scale = 0.6;
@@ -129,28 +83,13 @@ Candy.Game.prototype = {
 
 				channel.onopen = function (userid) {
 						if (document.getElementById('chat-input')) document.getElementById('chat-input').disabled = false;
-<<<<<<< HEAD
-						if (useridBox) useridBox.disabled = false; 
-=======
 						if (useridBox) useridBox.disabled = false;
->>>>>>> gh-pages
 						var message = 'Connected';
 						appendDIV(message, userid); };
 
 
 				channel.onmessage = function (data, userid, latency) {
 
-<<<<<<< HEAD
-						//		
-
-
-						if (data.msg == "0"){
-								var i = user.indexOf(userid);
-								if (user.indexOf(userid) != -1){
-								
-										enemies.children[i].x = data.x;
-										enemies.children[i].y = data.y;
-=======
 					if (data.msg == "0"){
 
 								var i = user.indexOf(userid);
@@ -161,17 +100,11 @@ Candy.Game.prototype = {
                                         enemyhooks.children[i].x = data.hookx;
                                     enemyhooks.children[i].y = data.hooky;
 
->>>>>>> gh-pages
 
 								}else{
 										user.push(userid);
 										Candy._scoreText.text = user.length;
 										enemy = enemies.create(data.x, data.y, 'monster-idle');
-<<<<<<< HEAD
-								}
-						}else{ 
-								appendDIV(data.msg, userid);	
-=======
                                     enemyhook =  enemyhooks.create(data.hookx, data.hooky, 'bullet')
                                 //    this.physics.enable(enemy, Phaser.Physics.ARCADE);
                                     Candy.physics.arcade.enable(enemy);
@@ -180,7 +113,6 @@ Candy.Game.prototype = {
 								}
 						}else{
 								appendDIV(data.msg, userid);
->>>>>>> gh-pages
 								console.debug(userid, 'posted', data); }
 
 				};
@@ -227,11 +159,7 @@ Candy.Game.prototype = {
 								var user = channel.channels[useridBox.value];
 								if (user) user.send(this.value);
 								else return alert('No such user exists.');
-<<<<<<< HEAD
-						} 
-=======
 						}
->>>>>>> gh-pages
 						else {
 								stream.msg = this.value;
 								channel.send(stream);
@@ -256,26 +184,6 @@ Candy.Game.prototype = {
 		},
 
 		update: function () {
-<<<<<<< HEAD
-this.physics.arcade.collide(enemy,bullets);
-
-
-				if (this.shootstick.isDown) 
-				{
-				if (this.time.now > nextFire && bullets.countDead() > 0)
-								{
-								nextFire = this.time.now + fireRate; 
-								var bullet = bullets.getFirstDead(); 
-								bullet.reset(this._player.x - 8, this._player.y - 8); 
-								this.physics.arcade.velocityFromRotation(this.shootstick.rotation, 400, bullet.body.velocity);
-						}
-
-				}
-				var maxSpeed = 400;
-				if (this.stick.isDown) {
-						this.physics.arcade.velocityFromRotation(this.stick.rotation, this.stick.force * maxSpeed, this._player.body.velocity); 
-						stream.x = this._player.x - 50;
-=======
 
 this.physics.arcade.collide(enemies,hook);
             var maxSpeed = 400;
@@ -296,19 +204,14 @@ this.physics.arcade.collide(enemies,hook);
 				if (this.stick.isDown) {
                     this.physics.arcade.velocityFromRotation(this.stick.rotation, this.stick.force * maxSpeed, this._player.body.velocity);
                     stream.x = this._player.x - 50;
->>>>>>> gh-pages
 						stream.y = this._player.y - 64;
 						channel.send(stream); 
 				} else {
 						this._player.body.velocity.set(0);
 				}
-<<<<<<< HEAD
-		}
-=======
 
 
         },
 
->>>>>>> gh-pages
 
 };
