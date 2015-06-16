@@ -1,0 +1,16 @@
+.pane {
+    margin: 20px;
+    text-align: center;
+}
+
+.message {
+    text-align: left;
+}
+
+#messages_container {
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #dedede;
+    padding: 10px;
+    margin-bottom: 2px;
+}
