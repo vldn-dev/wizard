@@ -1,27 +1,18 @@
 var user = [];
 var hook;
-
 var enemy;
 var enemyhook;
-
 var enemies;
 var enemyhooks;
-
-
-
-
 var shootButton;
 var stream = {x:"0", y:"0", msg:"0", hookx:"0", hooky:"0"};
 var channel = new DataChannel(location.hash.substr(1) || 'auto-session-establishment', {
 		firebase: 'webrtc-experiment'
 });
 Candy.Game = function (game) {
-
 		this._player = null;
-
 		this._fontStyle = null;
 		Candy._scoreText = null;
-
 		Candy._score = 0;
 		Candy._health = 0;
 };
